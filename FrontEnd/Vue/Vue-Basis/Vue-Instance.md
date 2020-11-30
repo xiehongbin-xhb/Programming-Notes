@@ -65,8 +65,75 @@ Vue.component('test', {
 #### methods 实例上自定义方法
 method将被混入到Vue实例中，可以通过实例直接访问这些方法，或者在指令表达式张使用，方法中的this自定义绑定为Vue实例。
 不应该使用箭头函数来定义methods函数（箭头函数this丢失问题）。
-#### computed
-#### watch
+#### computed　计算属性
+- 理解：相当于在Vue实例上多挂载一个属性，只不过这个属性是data对象内的某个属性或者某几个属性通过计算得出来的
+- 也就是计算属性将被混入到Vue实例中，所有getter和setter的this上下文自动地绑定为Vue实例
+- 计算属性的结果会被缓存，除非依赖的响应式property变化才会重新计算。
+- 用法：两种 =  函数或者对象(get属性/set属性)
+```js
+var vm = new Vue({
+	data:{a:1},
+	computed:{
+		aDouble:function() {
+			return this.a * 2
+		},
+		// 读取和设置
+		aPlus: {
+			get:function(){
+				return this.a + 1
+			},
+			set: function(){
+				this.a = v - 1
+			}
+		}
+	}
+})
+```
+#### watch　监听器对象
+- 理解：一个对象，键名是需要观察的表达式，值是对应的回调函数。值也可以是方法名，或者包含选项的对象。（键名：表达式；键值：函数，对象，数组）
+- 添加监听的时机：Vue实例化时调用$watch，遍历watch对象的每个一个property。
+```js
+  var vm = new Vue({
+    data: {
+        a:1,
+        b:2,
+        c:3,
+        d:4,
+        e:{
+            f:{
+                g:5
+            }
+        }
+    },
+    watch: {
+        a:function(newValue,oldValue){
+            console.log('newValue',newValue);
+            console.log('oldValue',oldValue);
+        },
+        // 方法名：
+        b:'someMethod',
+        c:{
+            // 该回调函数会任何被侦听的对象的property改变时被调用，不论其被嵌套多深
+            handler:function(newValue,oldValue){ }
+            deep:true
+        },
+        d:{
+        	handler:'someMethod',
+            immediate:true //该回调将会在侦听开始之后被立即调用
+    	},
+        e:[
+            // 可传入handler数组，当e的值发生改变时，会逐一调用
+            'handle1',function handle2(newValue,oldValue){
+                
+            },
+            {
+                handler:function handler3(newValue,oldValue){}
+            }
+        ]
+    }
+})
+```
+- 注意：配置对象的immediate属性，deep属性代表的意义。
 #### propsData
 ### DOM
 #### el
@@ -96,6 +163,60 @@ method将被混入到Vue实例中，可以通过实例直接访问这些方法�
 #### model
 #### inheritAttrs
 #### comments
+
 ## Vue实例属性
-### 
+### vm.$data
+### vm.$props
+### vm.$el
+### vm.$options
+### vm.$parent
+### vm.$children
+### vm.$root
+### vm.$slots
+### vm.$scopeSlots
+### vm.$refs
+### vm.$isServer
+### vm.$attrs
+### vm.$listeners
+
 ## Vue实例方法
+### 数据
+#### vm.$watch
+#### vm.$set
+#### vm.$delete
+### 事件
+#### vm.$emit
+#### vm.$on
+#### vm.$once
+#### vm.$off
+### 生命周期
+#### vm.$mount
+#### vm.$forceUpdate
+#### vm.$nextTick
+#### vm.$destroy
+
+## Vue指令
+### v-text
+### v-html
+### v-show
+### v-if
+### v-else-if
+### v-for
+### v-on
+### v-bind
+### v-model
+### v-slot
+### v-pre
+### v-cloak
+### v-once
+
+
+## Vue知识专题
+### computed和watch，$watch
+### 插槽，v-slot,v-slots，v-scopedSlots
+### 自定义指令
+### 过滤器
+### 函数式组件
+### Vue过渡动画
+### 渲染函数
+###　混入
