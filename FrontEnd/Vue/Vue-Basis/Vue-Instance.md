@@ -1,37 +1,34 @@
+
+
 # 怎么理解Vue
-Vue是一套用于构建用户界面的渐进式框架。
-***"渐进式"**
+`Vue`是一套用于构建用户界面的渐进式框架。
+**"渐进式"**
 Vue核心的功能，是一个视图模板引擎，可以通过添加组件系统，客户端路由，大规模状态管理来构建一个完整的框架。
 这些功能相互独立，可以在核心功能的基础上任意选用其他的部件。
 所谓的渐进式，也就是Vue的使用方式。
 # 如何构建用户界面
 几乎所有类型的应用界面都可以抽象成一个组件树。
-一个Vue应用是由一个通过new Vue()函数创建的根Vue实例，以及可选的嵌套的，可复用的组件树组成。
+一个`Vue`应用是由一个通过`new Vue()`函数创建的根`Vue`实例，以及可选的嵌套的，可复用的组件树组成。
 # Vue实例
 ## 创建Vue实例
-1. 直接指定el属性
+1. 直接指定`el`属性
 ```
   var vm = new Vue({
     'el':"#root",
     'template':"<div>hello world</div>"
   });
 ```
-2. 通过$mount方法进行挂载
+2. 通过`$mount`方法进行挂载
 ```
   var vm = new Vue({
     'template':"<div>hello world</div>"
   })
   vm.$mount('#root');
 ```
-## 创建Vue实例的配置对 象
-当一个Vue实例被创建时，可以传入一个配置对象，这个配置对象分为几类，数据，DOM，生命周期钩子，资源，其他等。
-重要：
-1. data和props
-2. computed和watch
-3. render和renderError
-4. 
+## 创建Vue实例的配置对象
+当一个`Vue`实例被创建时，可以传入一个配置对象，这个配置对象分为几类，数据，`DOM`，生命周期钩子，资源，其他等。
 ### 数据
-#### data Vue实例的数据对象
+#### data => Vue实例的数据对象
 1. 根实例/组件data属性区别，箭头函数问题。
 - 当一个组件被定义，data必须声明为一个返回数据对象的函数（一个函数，返回值是一个对象）。因为组件可能用来创建多个实例，如果data仍然为一个纯粹的对象，则所有实例都将共享引用同一个数据对象。
 - 通过data函数，每次创建一个新实例之后，能够调用data函数，从而返回初始数据的一个全新副本数据对象。
@@ -45,15 +42,15 @@ data: (vm) => { { a: vm.MyProp }}
 - 以_或者$开头的property的属性不会被Vue实例代理(即不能通过vm.a这样的方式来访问这个属性)，因为它们可能和Vue内置的property，API方法冲突，可以使用例如vm.$data._property来访问这个属性。
 3. 特殊的点
 - 对象必须是纯粹的对象，含有零个或者多个key/value对。data应该只是数据，不推荐观察拥有状态行为的对象。（怎么理解？）
-#### props 接收来自父组件的数据
-props可以是数组或者对象。
-1. 当props为数组时，使用方式如下
+#### `props`  => 接收来自父组件的数据
+`props`可以是数组或者对象。
+1. 当`props`为数组时，使用方式如下
 ```js
 Vue.component('test', {
   props:['prop1','prop2']
 }
 ```
-2. 当props为对象时，用于配置高级选项，如类型检测，默认值，自定义验证等。
+2. 当`props`为对象时，用于配置高级选项，如类型检测，默认值，自定义验证等。
 - type 可以是下列构造函数中的一种:`String`,`Number`,`Boolean`,`Array`,`Object`,`Date`,`Function`,`Symbol`,任何自定义构造函数或者上述内容组成的数组。会检查一个`prop`是否是给定的类型，否则抛出警告。
 - `default ：any `为该`prop`指定一个默认值。如果该`prop`没有被传入，则换做用这个值。对象或者数组的默认值必须从一个工厂函数返回。
 - `require：Boolean·`定义该`prop`是否是必填项，在非生产环境下，如果这个值为`truthy`，且该`prop`没有被传入，则控制台警告将会抛出。(非生产环境下？ 指的是开发环境下会有警告，生产环境？)
@@ -62,7 +59,7 @@ Vue.component('test', {
 注意点：
 设置默认值时，对象或者数组的默认值必须从一个工厂函数返回。
 
-#### methods 实例上自定义方法
+#### methods => 实例上自定义方法
 method将被混入到Vue实例中，可以通过实例直接访问这些方法，或者在指令表达式张使用，方法中的this自定义绑定为Vue实例。
 不应该使用箭头函数来定义methods函数（箭头函数this丢失问题）。
 #### computed　计算属性
@@ -89,9 +86,9 @@ var vm = new Vue({
 	}
 })
 ```
-#### watch　监听器对象
+#### `watch` => 监听器对象
 - 理解：一个对象，键名是需要观察的表达式，值是对应的回调函数。值也可以是方法名，或者包含选项的对象。（键名：表达式；键值：函数，对象，数组）
-- 添加监听的时机：Vue实例化时调用$watch，遍历watch对象的每个一个property。
+- 添加监听的时机：`Vue`实例化时调用`$watch`，遍历`watch`对象的每个一个`property`。
 ```js
   var vm = new Vue({
     data: {
@@ -133,14 +130,54 @@ var vm = new Vue({
     }
 })
 ```
-- 注意：配置对象的immediate属性，deep属性代表的意义。
+- 注意：配置对象的`immediate`属性，`deep`属性代表的意义。
 #### propsData
+只用于new创建的实例中，创建实例时传递props，主要作用是方便测试。(有疑问？)
+```js
+var Comp = Vue.extend({
+	props:['msg'],
+	template:'<div>{{msg}}</div>'
+})
+// 组件继承
+var vm = new Comp({
+	propsData:{
+		msg:'hello'
+	}
+});
+```
 ### DOM
-#### el
+#### el 
+- 字符串或者 Element类型
+- 只在用new 创建实例时生效
+- 作用：提供一个在页面上已经存在的DOM元素作为Vue实例的挂载目标，可以是CSS选择器，也可以是一个HTMLElement实例。
+在挂载之后，才能通过vm.$el访问到。
+
 #### template
+- 字符串类型
+- 一个字符串模板，模板将会替换挂载的元素，挂载元素的内容将会被忽略，除非模板的内容有分发插槽(这种情况会发生什么？)
+- 如果Vue选项中有包含渲染函数render属性，该模板template属性将会被忽略。
 #### render
+类型： 函数 => `(createElement) => VNode `
+详细： 字符串模板的代替方案。
+- 该渲染函数接收一个createElement方法作为第一个参数用来创建VNode
 #### renderError
+1. 类型：
+2. 详细： 
+- 只在开发环境下工作
+- 当render函数遭遇错误时，提供另外一种渲染输出，其错误将会作为第二个参数传递到renderError，这个功能配合hot-reload非常实用
+```js
+new Vue({
+  render(h) {
+    throw new Error('渲染错误了') // 模拟render过程中发生错误了
+  },
+  renderError(h,err) {
+    return h('pre',{ style: {color: 'red' }},err.stack);
+  }
+})
+```
 ### 生命周期钩子
+所有的生命周期钩子自动绑定this为实例，这意味着不能使用箭头函数来定义一个生命周期方法。
+注意： 用一段话来描述整个Vue的生命周期，以及整理一些重要的生命周期函数主要用处。
 #### beforeCreate
 #### created
 #### beforeMount
@@ -154,8 +191,22 @@ var vm = new Vue({
 #### errorCaptured
 ### 资源
 #### components 组件
+包含Vue实例可用组件的哈希表。参考文章Vue Component
 #### directives 自定义指令
+包含Vue实例可用指令的哈希表。自定义指令。 参考文章 Vue Directives
 #### filters 过滤器
+包含Vue实例可用过滤器的哈希表。参考文章 Vue Filters
+### 组合
+#### parent
+parent属性用于 指定已创建实例的父实例，在两者之间建立父子关系。子实例可以this.$parent访问父实例，子实例被推入父实例的$children数组中。
+注意：节制地使用$parent 和 $children，它们的主要目的是作为访问组件的应急方法。更推荐使用props和events实现父子组件通信。
+#### mixins 
+参考 Vue Mixins文章。
+#### extends 
+参考 Vue Extends 文章
+#### project / inject
+参考 Vue 组件通信 文章
+
 ### 其他
 #### name
 #### delimeiters
