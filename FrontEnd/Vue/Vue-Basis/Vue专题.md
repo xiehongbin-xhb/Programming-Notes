@@ -1,7 +1,7 @@
 <!--
  * @Author: xiehongbin
  * @Date: 2020-12-02 20:44:55
- * @LastEditTime: 2020-12-02 21:22:23
+ * @LastEditTime: 2020-12-02 22:26:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \Programming-Notes\FrontEnd\Vue\Vue-Basis\Vue专题.md
@@ -45,7 +45,107 @@ vm.$watch(function(){
 ### comptuted和watch区别
 watch需要数据变化时执行异步或者开销较大时使用，当一个属性影响多个属性时
 computed 当一个属性受多个属性影响时
-## 插槽
 ## 渲染函数和JSX
+虚拟节点和虚拟DOM
+Vue通过建立一个虚拟DOM来追踪自己要如何改变真实DOM。
+createElement函数返回的就是虚拟DOM节点，简称VNode
+它所包含的信息会告诉Vue页面上需要渲染什么节点，包括子节点的描述信息
+虚拟DOM是我们对由Vue组件建立起来的整个VNode树的称呼。
+格式：
+```js
+new Vue({
+  el:'#root',fo
+  render: function(createElement){
+    // 返回VNode
+    return createElement('h1',this.bolgTitle);
+  }
+})
+```
+render属性是一个函数，函数接收createElement方法作为参数，返回值为VNode
+1. createElement() 接收三个参数
+参数一：必选
+- 一个HTML元素标签名
+- 组件配置对象
+- 异步函数 resolve了上述任一的async函数
+  参数二:可选
+- 对象类型，一个与模板中attribute对应的对象，可选
+  参数三：字符串或者数组
+- 子级虚拟节点，由createElement()返回
+- 或者使用字符串生成文本节点
+```js
+// 渲染函数基本使用
+new Vue({
+  el:'#root',
+  render:function(createElement) {
+    return createElement('div',{
+      // 参数二：属性对象
+    },[
+      '文本内容',
+      createElement(MyComponent, {
+        props: {
+          someProps:'fooBar'
+        }
+      })
+    ])
+  }
+})
+```
+参数二：属性对象
+```js
+{
+  // 类型一:class style
+  // 接收一个字符串、对象或者字符串和对象组成的数组：和v-bind:class 的语法一致
+  class: {
+    "foo": true,
+    "bar":false
+  },
+  style: {
+    color:'red',
+    fontSize:'12px'
+  },
+  // 类型二 普通的HTML属性
+  attrs:{
+    id:'foo'
+  },
+  // 类型三 组件的prop  
+  props:{
+    myProps:'bar'
+  },
+  //类型四： DOM属性： 例如innerHTML 会覆盖v-html的内容
+  dmoProps:{
+    innerHTML:'baz'
+  },
+  // 类型五：事件监听
+  on: {
+    click: this.clickHandler
+  },/
+  // 类型六：nativeOn 仅用于组件,监听原生事件，而不是组件内部使用
+  // vm.$emit触发的事件
+  nativeOn: {
+    click:this.nativeClickHandler // 注意区分 on属性
+  },
+  // 类型七： 自定义指令
+  directives: [{
+    name:'my-custom-directives',
+    value:'2',
+    expression:'1+1',
+    arg:'foo',
+    modifiers: {
+      bar: true
+    }
+  }],
+  // 类型八：插槽
+  // 作用域插槽
+  scopedSlots: {
+    default:props => createElement('span',props.text);
+  },
+  // 如果组件是其他组件的子组件，需要为插槽指定名称
+  slot:'name-of-slot',
+  // 其他顶层属性
+  key:'myKey',
+  ref:'myRef',
+  
+}
+```
 ## 自定义指令
 ## 过滤器
