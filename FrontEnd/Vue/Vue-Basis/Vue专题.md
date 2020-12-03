@@ -1,7 +1,7 @@
 <!--
  * @Author: xiehongbin
  * @Date: 2020-12-02 20:44:55
- * @LastEditTime: 2020-12-02 22:26:01
+ * @LastEditTime: 2020-12-03 21:57:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \Programming-Notes\FrontEnd\Vue\Vue-Basis\Vue专题.md
@@ -147,5 +147,81 @@ new Vue({
   
 }
 ```
+```js
+Vue.component("anchored-heading",{
+  render:function(createElement){
+    return createElement(
+      'h'+this.level,
+      [
+        createElement('a', 
+        {
+          attrs: {
+            name: headingId,
+            href:'#'+headingId
+          },
+        },
+        this.$slots.default)
+      ]
+    )
+  }
+  },
+  props: {
+    level: {
+      type:Number,
+      required: true
+    }
+  }
+)
+```
+VNode 必须是唯一的
+render: function (createElement) {
+  var myParagraphVNode = createElement('p', 'hi')
+  return createElement('div', [
+    // 错误 - 重复的 VNode
+    myParagraphVNode, myParagraphVNode
+  ])i
+}
+
+用render实现v-for 或者 v-if
+在渲染函数中用JavaScript的if/else 和 map 来重写
+```js
+<ul v-if="items.length">
+  <li v-for="item in items">{{ item.name }}</li>
+</ul>
+<p v-else>No items found.</p>
+```
+```js
+props:['items']
+render:function(createElement) {
+  if(this.items.length) {
+    return createElement('ul',this.items.map(function(item){
+      return createElement('li',item.name)
+    }))
+  }else {
+    return createElement('p','No items found');
+  }
+}
+```
+v-model
+在渲染函数中需要自己实现响应的逻辑
+```js
+props:['value'],
+render:function(createElement){
+  var self = this;
+  return createElement('input',{
+    domProps: {
+      value:self.value
+    },
+    on:{
+      input:function(event){
+        this.$emit('input',event.target.value);
+      }
+    }
+  })
+}
+```
+事件 按键修饰符
+
+
 ## 自定义指令
 ## 过滤器
