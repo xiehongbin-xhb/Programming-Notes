@@ -216,19 +216,86 @@ parent属性用于 指定已创建实例的父实例，在两者之间建立父�
 #### comments
 
 ## Vue实例属性
-### vm.$data
-### vm.$props
-### vm.$el
-### vm.$options
-### vm.$parent
-### vm.$children
-### vm.$root
-### vm.$slots
-### vm.$scopeSlots
-### vm.$refs
-### vm.$isServer
-### vm.$attrs
-### vm.$listeners
+### `$data`
+
+   `Vue`实例观察的数据对象，`Vue`实例代理了`data`对象`property`的访问。
+
+### `$props`
+
+   当前组件接收到的props对象。`Vue`实例代理了`props`对象`property`的访问.
+
+### `$el`
+
+   `Vue`实例使用的根DOM元素
+
+### `$options`
+
+   - 定义：用于当前Vue实例的初始化选项
+
+   - **只读**
+
+   - 需要在选项中包含自定义property时会有用处（访问自定义属性，其他常规属性可以通过vm直接访问）
+
+     ```js
+     new Vue({
+         customOption:'foo',
+         created:function(){
+             console.log(this.options.customOption)// => 'foo'
+         }
+     })
+     ```
+
+### `$parent`
+
+   父实例，只读
+
+### `$root`
+
+   当前组件的根`Vue`实例，如果当前实例没有父实例，此实例将会是其自己。
+
+### `$children`
+
+   - 由`Vue`实例构成的数组
+
+   - 只读
+   - 表示当前实例的直接子组件。需要注意的是`$children`并不会保证顺序，也不是响应式的。
+
+### `$slots`
+
+   - 只读
+   - 非响应式
+   - 用来访问被插槽分发的内容。每个具名插槽都有与其相应的property（例如 `v-slot:foo`中的内容将会在`vm.$slots.foo`中被找到）。`default` `属性包含所有没有被包含在具名插槽中的节点。
+   - 使用渲染函数书写一个组件时，访问`vm.$slots`最有帮助。
+
+### `$scopedSlots`
+
+   - 只读
+   - 用来访问作用域插槽
+   - 对于包括默认插槽在内的每一个插槽，该对象都包含一个返回相应`VNode`的函数
+   - 作用域插槽函数保证返回一个`VNode`数组，除非在返回值无效的时候返回`undefined`
+
+### `$refs`
+
+  - 只读
+  - 一个对象，持有注册过ref属性的所有DOM元素和组件实例
+
+### `$isServer`
+
+  - 当前Vue实例是否运行于服务器
+
+### `$attrs`
+
+  - 只读
+
+  - 包含了父作用域下不作为prop被识别且获取的attrbute绑定（除了class和style）
+  - 当一个组件没有声明任何prop时，这里会包含所有父作用域的绑定，并且可以通过`v-bind= "attrs"`传入内部组件
+
+### `$listeners`
+
+  - 只读
+  - 包含了父作用域下的（不含.native修饰器的）v-on时间监听器。它可以通过`v-on="$listeners"`传入内部组件
+
+
 
 ## Vue实例方法
 ### 数据
