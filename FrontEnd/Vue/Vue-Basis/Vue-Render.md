@@ -1,19 +1,4 @@
-<!--
- * @Author: your name
- * @Date: 2020-12-01 22:09:39
- * @LastEditTime: 2020-12-01 23:01:40
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \Programming-Notes\FrontEnd\Vue\Vue-Basis\Vue-Render.md
--->
-<!--
- * @Author: xiehongbin
- * @Date: 2020-12-01 22:09:39
- * @LastEditTime: 2020-12-01 22:45:41
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \Programming-Notes\FrontEnd\Vue\Vue-Basis\Vue-Render.md
--->
+
 # Vue 渲染函数
 ## 基础
 ```js
