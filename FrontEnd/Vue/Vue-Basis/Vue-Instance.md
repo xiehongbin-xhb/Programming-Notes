@@ -296,12 +296,46 @@ parent属性用于 指定已创建实例的父实例，在两者之间建立父�
   - 包含了父作用域下的（不含.native修饰器的）v-on时间监听器。它可以通过`v-on="$listeners"`传入内部组件
 
 
-
 ## Vue实例方法
 ### 数据
 #### vm.$watch
+1. 参数
+- 参数1 字符串或者函数
+- 参数2 函数或者对象，表示回调函数
+- 参数3 选项：  immediate属性/deep属性
+```js
+// 监听函数
+vm.$watch(
+  function () {
+    // 表达式 `this.a + this.b` 每次得出一个不同的结果时
+    // 处理函数都会被调用。
+    // 这就像监听一个未被定义的计算属性
+    return this.a + this.b
+  },
+  // 参数2
+  function (newVal, oldVal) {
+    // 做点什么
+  },
+  // 参数3
+  {
+    deep:true,
+    immediate:true
+  }
+)
+```
+2. vm.$watch返回一个取消观察函数，用来停止触发回调
 #### vm.$set
+1. 参数
+- 对象或者数组
+- 属性名或者索引
+- 要设置的值
+2. vm.$set是全局API Vue.set的别名
+
 #### vm.$delete
+1. 参数
+- 对象或者数组
+- 属性名或者索引
+2. vm.$delete是Vue.delete的别名
 ### 事件
 #### vm.$emit
 #### vm.$on
